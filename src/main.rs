@@ -1,4 +1,4 @@
-use std::io::stdin;
+use std::io::{BufWriter, stdin, stdout, Write};
 use anyhow::Result;
 use token_read::TokenReader;
 
@@ -25,6 +25,15 @@ impl Boxes {
         self.boxes.push(tea);
         index
     }
+}
+
+struct Output {
+    saved_tea: usize, // amount of saved tea
+    changes: Vec<(usize, usize)>, // changes in covers' locations
+}
+
+fn calculate(boxes: &Boxes) -> Output {
+    todo!()
 }
 
 #[derive(Debug)]
@@ -62,7 +71,14 @@ fn read_input() -> Result<Input> {
 fn main() -> Result<()> {
     let input = read_input()?;
 
-    dbg!(input);
+    let output = calculate(&input.boxes);
+    let mut out = BufWriter::new(stdout().lock());
+
+    writeln!(out, "{}", output.saved_tea)?;
+
+    for (from, to) in output.changes {
+        writeln!(out, "{} {}", from, to)?;
+    }
 
     Ok(())
 }
